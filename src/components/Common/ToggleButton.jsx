@@ -18,7 +18,7 @@ const ToggleButton = ({
   const handleToggle = async () => {
     try {
       await axios.protected.patch(
-        `${route}/toggle/${type}/${value}`,
+        `${route}/toggle/${value}`,
         {},
         { headers: { "Accept-Language": i18n.language || "ar" } }
       );

@@ -6,6 +6,7 @@ const PermissionContext = createContext();
 export const PermissionProvider = ({ children }) => {
   const [permissions, setPermissions] = useState([]);
   const [userEmail, setUserEmail] = useState("");
+  const [userType, setUserType] = useState("");
   const [loading, setLoading] = useState(true);
   const fetchPermissions = useCallback(async () => {
     const token = localStorage.getItem("ACCESS_TOKEN");
@@ -18,8 +19,9 @@ export const PermissionProvider = ({ children }) => {
       
 
       if (data?.status && data?.data) {
-        const { seperatePermission = [], roles = [], email = "" } = data.data;
+        const { seperatePermission = [], roles = [], email = "", type = "" } = data.data;
         setUserEmail(email);
+        setUserType(type);
         const rolePermissions = roles.flatMap(r =>
           r.permissions?.map(p => p.permission_name) || []
         );
@@ -40,7 +42,7 @@ export const PermissionProvider = ({ children }) => {
   }, [fetchPermissions]);
 
   const hasPermission = (perm) => {
-    if (userEmail === "admin@gmail.com") return true; // bypass check for super admin
+    if (userType === 1 || userType === 2) return true; //Admin or School Admin
     return permissions.includes(perm);
   };
 
@@ -50,7 +52,9 @@ export const PermissionProvider = ({ children }) => {
         permissions,
         hasPermission,
         loading,
+        userType,
         refreshPermissions: fetchPermissions,
+
       }}
     >
       {children}

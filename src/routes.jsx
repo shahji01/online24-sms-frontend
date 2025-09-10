@@ -26,6 +26,7 @@ import ResetPassword from "./views/ResetPassword";
 import VerifyResetCode from "./views/VerifyResetCode";
 import withSpecialPassword from "./withSpecialPassword";
 import ActivityLogs from "./views/Modules/ActivityLogs";
+import Schools from "./views/Modules/Schools";
 const ProtectedDatabaseTables = withSpecialPassword(DatabaseTablesList);
 
 const AppRoutes = () => {
@@ -47,6 +48,7 @@ const AppRoutes = () => {
         }
       >
         {/* Core */}
+        <Route path="/schools" element={<PermissionCheck permission={["schools",1]}><Schools /></PermissionCheck>} />
         <Route path="/dashboard" element={<PermissionCheck permission={["dashboard",1]}><Dashboard /></PermissionCheck>} />
         <Route path="/database-tables" element={<PermissionCheck permission={["database-tables",1]}><ProtectedDatabaseTables /></PermissionCheck>} />
         <Route path="/activity-logs" element={<PermissionCheck permission={["activity-logs",1]}><ActivityLogs /></PermissionCheck>} />

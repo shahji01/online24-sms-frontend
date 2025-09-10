@@ -252,5 +252,11 @@
   "user_id": "User ID",
   "start_date": "Start Date",
   "end_date": "End Date",
-  "export_failed": "Failed to export logs."
+  "export_failed": "Failed to export logs.",
+  "admin_email": "Admin Email",
+  "enter_admin_email": "Enter admin email",
+  "school_account_created": "School account created",
+  "login_email": "Login Email",
+  "login_password": "Login Password",
+  "advise_change_password": "Advise the admin to change password after first login."
 }

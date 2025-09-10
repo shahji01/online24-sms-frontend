@@ -1,4 +1,3 @@
-// src/layouts/Layouts.jsx
 import { useEffect, useState, useCallback } from "react";
 import styles from "@/assets/scss/Layouts.module.scss";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
@@ -20,16 +19,18 @@ import userImg from "../assets/image/admin.jpg";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { getMenuItems } from "../config/menuConfig";
+import { usePermission } from "../context/PermissionContext"; // ✅
 
 const Layouts = () => {
   const [user, setUser] = useState(null);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const { sidebarMini } = useDashboardDataContext();
+  const { userType } = usePermission(); // ✅ get userType
   const navigate = useNavigate();
   const { t } = useTranslation();
   const location = useLocation();
 
-  const menuItems = getMenuItems(t); // dynamic menu config
+  const menuItems = getMenuItems(t, userType); // ✅ dynamic based on type
   const isRTL = i18n.dir() === "rtl";
 
   useEffect(() => {
@@ -76,7 +77,7 @@ const Layouts = () => {
                     className={`${styles.submenu_label} ${
                       hasActiveChild ? styles.activeParent : ""
                     }`}
-                    style={{ paddingLeft: `${level * 16}px` }} // indentation
+                    style={{ paddingLeft: `${level * 16}px` }}
                   >
                     <i className={item.icon}></i>
                     <span>{item.label}</span>
@@ -102,7 +103,7 @@ const Layouts = () => {
             <MenuItem
               routeLink={item.route}
               className={`${isActive ? styles.activeMenuItem : ""}`}
-              style={{ paddingLeft: `${level * 16 + 24}px` }} // extra indent for children
+              style={{ paddingLeft: `${level * 16 + 24}px` }}
             >
               <i className={item.icon}></i>
               <span>{item.label}</span>
@@ -122,18 +123,8 @@ const Layouts = () => {
       <Sidebar>
         <Logo>
           <Link to="/">
-            <img
-              className="mini-logo"
-              data-logo="mini-logo"
-              src="/logoColored.png"
-              alt="logo"
-            />
-            <img
-              className="logo"
-              data-logo="logo"
-              src="/logoColored.png"
-              alt="logo"
-            />
+            <img className="mini-logo" data-logo="mini-logo" src="/logoColored.png" alt="logo" />
+            <img className="logo" data-logo="logo" src="/logoColored.png" alt="logo" />
           </Link>
         </Logo>
 
